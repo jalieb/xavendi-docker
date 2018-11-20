@@ -1,0 +1,40 @@
+version: "3"
+services:
+  web:
+    image: jalieb/xavendi-php:latest
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 500M
+      restart_policy:
+        condition: on-failure
+    volumes:
+      - ./app:/var/www/html
+    ports:
+      - "8080:80"
+    networks:
+      - webnet
+  sql:
+    image: jalieb/xavendi-mysql:latest
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 500M
+      restart_policy:
+        condition: on-failure
+    volumes:
+      - ./data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: xavendi
+      MYSQL_PASSWORD: QDdK23+K:.kMJX+g
+    networks:
+      - webnet
+networks:
+  webnet:
